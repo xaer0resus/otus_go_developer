@@ -14,18 +14,23 @@ func createChessBoard(size uint64) string {
 		whiteTile = "#"
 	)
 
-	var boardBuilder strings.Builder
+	var boardString strings.Builder
 	sizeInt := int(size)
-	for i := 0; i < sizeInt; i++ {
-		var pattern string
-		if i%2 == 0 {
-			pattern = blackTile + whiteTile
+	for i := 0; i < sizeInt*sizeInt; i++ {
+		row := i / sizeInt
+		col := i % sizeInt
+
+		if (row+col)%2 == 0 {
+			boardString.WriteString(blackTile)
 		} else {
-			pattern = whiteTile + blackTile
+			boardString.WriteString(whiteTile)
 		}
-		boardBuilder.WriteString(strings.Repeat(pattern, sizeInt/2) + "\n")
+
+		if col == sizeInt-1 && row != sizeInt-1 {
+			boardString.WriteString("\n")
+		}
 	}
-	return boardBuilder.String()
+	return boardString.String()
 }
 
 func main() {
